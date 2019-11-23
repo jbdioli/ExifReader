@@ -2,17 +2,6 @@ import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import * as ExifReader from 'exifreader'; // Test with exifReader plugin
 
 
-export interface MetaData {
-  name: string;
-  size: number;
-  type: string;
-  date?: Date;
-  imageHeight?: number;
-  imageWidth?: number;
-  gpsLatitude?: number;
-  gpsLongitude?: number;
-}
-
 export interface ImageDetail {
   name: string;
   type: string;
@@ -36,7 +25,6 @@ export class HomePage implements OnInit {
 
   filesPickuped: Array<ImageDetail> = [];
   tags: Array<any> = [];
-  metaData: Array<MetaData> = [];
 
   latFinal: number;
 
@@ -56,6 +44,9 @@ export class HomePage implements OnInit {
     let index: number;
     for (index = 0; index < files.length; index++) {
 
+      /*
+      * Settle imageDetail with with some image MetaData
+      */
       let size: any = (files[index].size / 1048576);
       size = Number.parseFloat(size).toPrecision(3);
       const idx = this.filesPickuped.push({ name: files[index].name, type: files[index].type, size});
@@ -66,10 +57,9 @@ export class HomePage implements OnInit {
       */
       this.convertToDataUrl(files[index], this.filesPickuped, (idx - 1));
 
-     // const newIndex = this.metaData.push({name: files[index].name, size, type: files[index].type});
 
       /*
-       * using exifReader plugin
+       * using exifReader plugin to get metadata from image
        * npm install exifreader --save
        */
       this.exifReader(files[index], this.filesPickuped, (idx - 1));
