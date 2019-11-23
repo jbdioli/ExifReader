@@ -1,14 +1,43 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      Exif-Reader
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+
+  <ion-button expand="block" color="primary" (click)="onPickImage()" *ngIf="!selectedImage">
+    <ion-icon name="cloud-upload" slot="start"></ion-icon>
+    <ion-label>Upload Pictures</ion-label>
+  </ion-button>
+
+  <div *ngFor="let image of filesPickuped; let idx = index">
+    <h6>{{image.name}}</h6>
+    <ion-img class="ionImg" (click)="onPickImage()" [src]="image.data" *ngIf="filesPickuped"></ion-img>
+    <ion-list>
+      <ion-item>
+        <ion-label>Date : </ion-label>
+        {{metaData[idx]?.date}}
+      </ion-item>
+      <ion-item>
+        <ion-label>Size in Mo : </ion-label>
+        {{metaData[idx]?.size}}
+      </ion-item>
+      <ion-item>
+        <ion-label>Image Height : </ion-label>
+        {{metaData[idx]?.imageHeight}}
+      </ion-item>
+      <ion-item>
+        <ion-label>Image Width : </ion-label>
+        {{metaData[idx]?.imageWidth}}
+      </ion-item>
+    </ion-list>
+    <a href="http://www.google.com/maps/place/'+metaData[idx].gpsLatitude+','+metaData[idx].gpsLongitude+'" target="_blank">Google Maps</a>
   </div>
+
+
+  <input type="file" multiple name="photo" (change)="onFileChosen($event)" #filePicker />
+
 </ion-content>
