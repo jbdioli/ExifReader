@@ -14,27 +14,27 @@
   </ion-button>
 
   <div *ngFor="let image of filesPickuped; let idx = index">
-    <h6>{{image.name}}</h6>
-    <ion-img class="ionImg" (click)="onPickImage()" [src]="image.data" *ngIf="filesPickuped"></ion-img>
+    <h6>{{image?.name}}</h6>
+    <ion-img class="ionImg" (click)="onPickImage()" [src]="image?.data" *ngIf="filesPickuped"></ion-img>
     <ion-list>
       <ion-item>
         <ion-label>Date : </ion-label>
-        {{metaData[idx]?.date}}
+        {{image?.date}}
       </ion-item>
       <ion-item>
         <ion-label>Size in Mo : </ion-label>
-        {{metaData[idx]?.size}}
+        {{image?.size}}
       </ion-item>
       <ion-item>
         <ion-label>Image Height : </ion-label>
-        {{metaData[idx]?.imageHeight}}
+        {{image?.imageHeight}}
       </ion-item>
       <ion-item>
         <ion-label>Image Width : </ion-label>
-        {{metaData[idx]?.imageWidth}}
+        {{image?.imageWidth}}
       </ion-item>
     </ion-list>
-    <a href="http://www.google.com/maps/place/'+metaData[idx].gpsLatitude+','+metaData[idx].gpsLongitude+'" target="_blank">Google Maps</a>
+    <a href="http://www.google.com/maps/place/'image.gpsLatitude','image.gpsLongitude'" target="_blank">Google Maps</a>
   </div>
 
 

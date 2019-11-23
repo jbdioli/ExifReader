@@ -14,8 +14,15 @@ export interface MetaData {
 }
 
 export interface ImageDetail {
-  data: string;
-  name?: string;
+  name: string;
+  type: string;
+  size: number;
+  data?: string;
+  date?: Date;
+  imageHeight?: number;
+  imageWidth?: number;
+  gpsLatitude?: number;
+  gpsLongitude?: number;
 }
 
 @Component({
@@ -49,26 +56,28 @@ export class HomePage implements OnInit {
     let index: number;
     for (index = 0; index < files.length; index++) {
 
+      let size: any = (files[index].size / 1048576);
+      size = Number.parseFloat(size).toPrecision(3);
+      const idx = this.filesPickuped.push({ name: files[index].name, type: files[index].type, size});
+
+
       /*
       * Convert the File to dataUrl to be display
       */
-      this.convertToDataUrl(files[index], this.filesPickuped);
-      let size: any = (files[index].size / 1048576);
-      size = Number.parseFloat(size).toPrecision(3);
-      const newIndex = this.metaData.push({name: files[index].name, size, type: files[index].type});
-      console.log('new index :', newIndex);
+      this.convertToDataUrl(files[index], this.filesPickuped, (idx - 1));
 
+     // const newIndex = this.metaData.push({name: files[index].name, size, type: files[index].type});
 
       /*
        * using exifReader plugin
        * npm install exifreader --save
        */
-      this.exifReader(files[index], (newIndex - 1));
+      this.exifReader(files[index], this.filesPickuped, (idx - 1));
     }
   }
 
 
-  async exifReader(image: File, index: number) {
+  exifReader(image: File, storage: Array<ImageDetail>, index: number) {
     const fileReader = new FileReader();
     let arrayBuffer: any;
     fileReader.onload = () => {
@@ -77,19 +86,19 @@ export class HomePage implements OnInit {
 
       console.log('tags : ', this.tags);
 
-      this.metaData[index].imageHeight = this.tags[index]['Image Height'].description;
-      this.metaData[index].imageWidth = this.tags[index]['Image Width'].description;
+      storage[index].imageHeight = this.tags[index]['Image Height'].description;
+      storage[index].imageWidth = this.tags[index]['Image Width'].description;
       if (this.tags[index].DateTimeOriginal) {
-        this.metaData[index].date = this.tags[index].DateTimeOriginal.description;
+        storage[index].date = this.tags[index].DateTimeOriginal.description;
       }
       if (this.tags[index].GPSLatitude) {
-        this.metaData[index].gpsLatitude = this.tags[index].GPSLatitude.description;
+        storage[index].gpsLatitude = this.tags[index].GPSLatitude.description;
       }
       if (this.tags[index].GPSLongitude) {
-        this.metaData[index].gpsLongitude = this.tags[index].GPSLongitude.description;
+        storage[index].gpsLongitude = this.tags[index].GPSLongitude.description;
       }
 
-      console.log('metaData : ', this.metaData);
+      console.log('storage : ', storage);
 
     };
     fileReader.readAsArrayBuffer(image);
@@ -108,11 +117,11 @@ export class HomePage implements OnInit {
 
 
   // File to dataUrl
-  convertToDataUrl(image: File, storage: Array<ImageDetail>) {
+  convertToDataUrl(image: File, storage: Array<ImageDetail>, index: number) {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       const dataUrl = fileReader.result.toString();
-      storage.push({ data: dataUrl, name: image.name });
+      storage[index].data = dataUrl;
     };
     fileReader.readAsDataURL(image);
   }
