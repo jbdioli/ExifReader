@@ -1,0 +1,8 @@
+{
+  "appId": "com.jdeoworld.app",
+  "appName": "ExifReader",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}

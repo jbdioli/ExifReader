@@ -33,8 +33,14 @@
         <ion-label>Image Width : </ion-label>
         {{image?.imageWidth}}
       </ion-item>
+      <ion-item>
+        <ion-label>Google Map : </ion-label>
+        <a href="http://www.google.com/maps/place/{{image.gpsLatitude}},{{image.gpsLongitude}}" target="_blank" *ngIf="image.gpsLatitude">
+          <ion-icon name="map"></ion-icon>
+        </a>
+      </ion-item>
     </ion-list>
-    <a href="http://www.google.com/maps/place/'image.gpsLatitude','image.gpsLongitude'" target="_blank">Google Maps</a>
+    
   </div>
 
 
