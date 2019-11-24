@@ -17,7 +17,7 @@
     <h6>{{image?.name}}</h6>
     <ion-img class="ionImg" (click)="onPickImage()" [src]="image?.data" *ngIf="filesPickuped"></ion-img>
     <ion-list>
-      <ion-item>
+      <ion-item *ngIf="image?.date">
         <ion-label>Date : </ion-label>
         {{image?.date}}
       </ion-item>
