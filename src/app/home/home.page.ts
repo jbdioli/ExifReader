@@ -26,8 +26,6 @@ export class HomePage implements OnInit {
   filesPickuped: Array<ImageDetail> = [];
   tags: Array<any> = [];
 
-  latFinal: number;
-
   constructor() {}
 
   ngOnInit() {}
@@ -92,17 +90,6 @@ export class HomePage implements OnInit {
 
     };
     fileReader.readAsArrayBuffer(image);
-  }
-
-
-  convertDMSToDD(degrees: number, minutes: number, seconds: number, direction: string) {
-    console.log(degrees, minutes, seconds, direction);
-    let dd = degrees + (minutes / 60) + (seconds / 3600);
-
-    if (direction === 'S' || direction === 'W') {
-      dd = dd * -1;
-    }
-    return dd;
   }
 
 
