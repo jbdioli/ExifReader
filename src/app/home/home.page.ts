@@ -99,6 +99,7 @@ export class HomePage implements OnInit {
     fileReader.onload = () => {
       const dataUrl = fileReader.result.toString();
       storage[index].data = dataUrl;
+      console.log('image : ', dataUrl);
     };
     fileReader.readAsDataURL(image);
   }
